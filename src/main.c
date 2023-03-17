@@ -3,21 +3,19 @@
 #include "stm32f0xx.h"
 #include "lcd_stm32f0.h"
 
-void init_leds();
+void init_LEDs();
+void display_on_LCD(uint8_t num);
 
 void main()
 {
 	//init_buttons();
-	init_leds();
+	init_LEDs();
 	init_LCD();
 
 	while(1)
 	{
 		display_on_LCD(16);
-		while(1)
-		{
 
-		}
 		// Switch GPIOB pins 0-7 on
 		GPIOB->ODR = 0xFF;
 	}
@@ -32,7 +30,7 @@ void display_on_LCD(uint8_t num)
 	delay(500000);
 }
 
-void init_leds()
+void init_LEDs()
 {
 	// Enable GPIOB clock
 	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
