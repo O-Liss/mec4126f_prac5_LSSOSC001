@@ -5,6 +5,7 @@
 
 void init_LEDs();
 void display_on_LCD(uint8_t num);
+void display_on_LEDs(uint8_t no);
 
 void main()
 {
@@ -15,9 +16,7 @@ void main()
 	while(1)
 	{
 		display_on_LCD(16);
-
-		// Switch GPIOB pins 0-7 on
-		GPIOB->ODR = 0xFF;
+		display_on_LEDs(4);
 	}
 }
 
@@ -38,4 +37,9 @@ void init_LEDs()
 	// Setup GPIOB pins 0-7 as outputs
 	GPIOB->MODER |= GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 | GPIO_MODER_MODER3_0;
 	GPIOB->MODER |= GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_0 | GPIO_MODER_MODER6_0 | GPIO_MODER_MODER7_0;
+}
+
+void display_on_LEDs(uint8_t no)
+{
+	GPIOB->ODR = no;
 }
