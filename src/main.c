@@ -7,6 +7,7 @@ void init_LEDs();
 void display_on_LCD(uint8_t num);
 void display_on_LEDs(uint8_t no);
 void init_switches();
+void init_external_interupts();
 
 void main()
 {
@@ -14,6 +15,8 @@ void main()
 	init_LEDs();
 	init_LCD();
 	init_switches();
+	init_external_interupts();
+	EXTI2_3_IRQnHandler();
 
 	uint8_t count=0;
 	display_on_LCD(count);
@@ -81,4 +84,17 @@ void init_switches()
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR1_0;
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR2_0;
+}
+
+void init_external_interupts()
+{
+	RCC -> APB2ENR |= RCC_APB2ENR_SYSCFGCOMPEN;
+	SYSCFG ->EXTICR[0] = SYSCFG_EXTICR1_EXTI3_PA;
+	EXTI -> IMR |= EXTI_IMR_MR3;
+	EXTI -> FTSR |= EXTI_FTSR_TR3;
+	NVIC_EnableIRQ(EXTI2_3_IRQn);
+}
+
+void EXTI2_3_IRQnHandler()
+{
 }
