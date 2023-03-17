@@ -15,10 +15,41 @@ void main()
 	init_LCD();
 	init_switches();
 
+	uint8_t count=0;
+	display_on_LCD(count);
+	display_on_LEDs(count);
+
+
 	while(1)
 	{
-		display_on_LCD(16);
-		display_on_LEDs(4);
+		if((GPIOA -> IDR &= GPIO_IDR_1 ) == 0)
+		{
+			if(count==255)
+			{
+				continue;
+			}
+			else
+			{
+				count +=1;
+				display_on_LCD(count);
+				display_on_LEDs(count);
+				delay(50000);
+			}
+		}
+		else if((GPIOA -> IDR &= GPIO_IDR_2 ) == 0)
+		{
+			if(count==0)
+			{
+				continue;
+			}
+			else
+			{
+				count -=1;
+				display_on_LCD(count);
+				display_on_LEDs(count);
+				delay(50000);
+			}
+		}
 	}
 }
 
@@ -28,7 +59,6 @@ void display_on_LCD(uint8_t num)
 	char string_num[3];
 	sprintf(string_num, "%d",num);
 	lcd_putstring(string_num);
-	delay(500000);
 }
 
 void init_LEDs()
