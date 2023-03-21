@@ -27,7 +27,7 @@ void main()
 	while(1)
 	{
 		//enters this if statement when switch 3 count is odd
-		if((sw3_count%2) != 0)
+		if(sw3_count != 0)
 		{
 		//enters this if statement when sw1 has been pressed (pin goes low)
 		if((GPIOA -> IDR &= GPIO_IDR_1 ) == 0)
@@ -124,9 +124,9 @@ void display_on_LEDs(uint8_t no)
 void init_switches()
 {
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-	GPIOA->MODER &= ~GPIO_MODER_MODER0;
 	GPIOA->MODER &= ~GPIO_MODER_MODER1;
 	GPIOA->MODER &= ~GPIO_MODER_MODER2;
+	GPIOA->MODER &= ~GPIO_MODER_MODER3;
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR1_0;
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR2_0;
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR3_0;
@@ -158,5 +158,6 @@ void EXTI2_3_IRQHandler()
 {
 
 	sw3_count +=1;
+	sw3_count = sw3_count%2;
 	EXTI -> PR |= EXTI_PR_PR3;
 }
